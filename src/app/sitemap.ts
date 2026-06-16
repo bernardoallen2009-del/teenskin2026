@@ -3,7 +3,24 @@ import { articles, products } from "@/data/catalog";
 import { siteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = ["", "/produtos", "/quiz", "/carrinho", "/sobre", "/descobrir", "/perfil", "/privacidade"];
+  const staticRoutes = [
+    "",
+    "/produtos",
+    "/quiz",
+    "/carrinho",
+    "/sobre",
+    "/descobrir",
+    "/perfil",
+    "/privacidade",
+    "/rotinas",
+    "/problemas",
+    "/ingredientes",
+    "/faq",
+    "/envios",
+    "/contactos",
+    "/termos",
+    "/cookies"
+  ];
 
   return [
     ...staticRoutes.map((route) => ({

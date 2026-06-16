@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal, X } from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
 import { useCart } from "@/components/CartContext";
 import styles from "@/styles/site.module.css";
@@ -41,6 +41,7 @@ export function ProductExplorer({ products }: { products: Product[] }) {
   const [minRating, setMinRating] = useState("0");
   const [sort, setSort] = useState("popularidade");
   const [visibleCount, setVisibleCount] = useState(8);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const ingredients = useMemo(() => {
     return Array.from(new Set(products.flatMap((product) => product.ingredients))).sort();
@@ -79,7 +80,25 @@ export function ProductExplorer({ products }: { products: Product[] }) {
 
   return (
     <div className={styles.filtersLayout}>
-      <aside className={styles.filterPanel} aria-label="Filtros de produto">
+      <div className={styles.mobileFilterBar}>
+        <button className={styles.secondaryButton} type="button" onClick={() => setFiltersOpen(true)}>
+          <SlidersHorizontal size={18} aria-hidden="true" />
+          Filtros
+        </button>
+        <span className={styles.muted}>
+          {filtered.length} produto{filtered.length === 1 ? "" : "s"}
+        </span>
+      </div>
+      <button
+        className={`${styles.overlay} ${filtersOpen ? styles.overlayOpen : ""}`}
+        type="button"
+        aria-label="Fechar filtros"
+        onClick={() => setFiltersOpen(false)}
+      />
+      <aside className={`${styles.filterPanel} ${filtersOpen ? styles.filterPanelOpen : ""}`} aria-label="Filtros de produto">
+        <button className={`${styles.iconButton} ${styles.filterClose}`} type="button" aria-label="Fechar filtros" onClick={() => setFiltersOpen(false)}>
+          <X size={18} aria-hidden="true" />
+        </button>
         <div className={styles.authMeta}>
           <SlidersHorizontal size={18} aria-hidden="true" />
           <strong>Filtros</strong>

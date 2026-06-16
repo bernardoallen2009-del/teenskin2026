@@ -9,9 +9,11 @@ import styles from "@/styles/site.module.css";
 
 const navItems = [
   { href: "/produtos", label: dictionary.pt.navProducts },
-  { href: "/sobre", label: dictionary.pt.navAbout },
+  { href: "/rotinas", label: "Rotinas" },
+  { href: "/ingredientes", label: "Ingredientes" },
+  { href: "/quiz", label: dictionary.pt.navQuiz },
   { href: "/descobrir", label: dictionary.pt.navDiscover },
-  { href: "/quiz", label: dictionary.pt.navQuiz }
+  { href: "/sobre", label: dictionary.pt.navAbout },
 ];
 
 export function Header() {
@@ -33,7 +35,7 @@ export function Header() {
             <Menu size={20} aria-hidden="true" />
           </button>
           <nav className={styles.navLeft} aria-label="Navegação principal">
-            {navItems.slice(0, 3).map((item) => (
+            {navItems.slice(0, 4).map((item) => (
               <Link className={styles.navLink} href={item.href} key={item.href}>
                 {item.label}
               </Link>

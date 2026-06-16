@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { FormEvent, useState } from "react";
-import { ShoppingBag } from "lucide-react";
+import { ShieldCheck, ShoppingBag, Zap } from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
 import { StarRating } from "@/components/StarRating";
 import { useCart } from "@/components/CartContext";
@@ -20,15 +21,43 @@ export function ProductDetailClient({ product, related }: { product: Product; re
   const { addItem } = useCart();
   const [activeImage, setActiveImage] = useState(product.gallery[0] ?? product.image);
   const [rotation, setRotation] = useState(0);
-  const [size, setSize] = useState(product.sizes[0]);
+  const [size, setSize] = useState(product.sizes[0] ?? "");
   const [reviews, setReviews] = useState<LocalReview[]>([]);
   const [form, setForm] = useState({ name: "", rating: "5", comment: "" });
   const [added, setAdded] = useState(false);
+  const selectedMl = Number(size.match(/(\d+)\s*ml/i)?.[1]);
+  const computedPricePerMl = selectedMl ? `${formatPrice(product.price / selectedMl)}/ml` : "Varia por tamanho";
+  const skinLabel = product.skinTypes.join(", ");
+  const fullIngredients = product.fullIngredients ?? product.ingredients;
+  const benefits = product.benefits ?? product.concerns.map((concern) => `Ajuda em ${concern}`);
+  const whenToUse =
+    product.whenToUse ??
+    (product.category === "protecao-solar"
+      ? "Manhã, como último passo da rotina."
+      : product.category === "limpeza"
+        ? "Manhã e/ou noite, antes dos restantes cuidados."
+        : "Depois da limpeza, quando a pele precisar deste passo.");
+  const texture =
+    product.texture ??
+    (product.category === "limpeza"
+      ? "Gel ou espuma suave"
+      : product.category === "hidratacao"
+        ? "Creme confortável"
+        : product.category === "corpo"
+          ? "Loção rápida"
+          : "Textura leve");
+  const pairsWith = product.pairsWith ?? related.slice(0, 3).map((item) => item.name);
+  const avoidWith = product.avoidWith ?? ["Não juntes demasiados ativos novos na mesma semana.", product.safetyNote];
 
   function addToCart() {
     addItem(product);
     setAdded(true);
     window.setTimeout(() => setAdded(false), 1300);
+  }
+
+  function buyNow() {
+    addItem(product);
+    window.location.assign("/carrinho");
   }
 
   function submitReview(event: FormEvent<HTMLFormElement>) {
@@ -53,7 +82,8 @@ export function ProductDetailClient({ product, related }: { product: Product; re
               src={activeImage}
               width={760}
               height={760}
-              alt={`Vista 360 do produto ${product.name}`}
+              alt={`Imagem do produto ${product.name}`}
+              sizes="(max-width: 768px) 92vw, (max-width: 1024px) 80vw, 48vw"
               style={{ transform: `rotateY(${rotation}deg)` }}
             />
           </div>
@@ -69,15 +99,15 @@ export function ProductDetailClient({ product, related }: { product: Product; re
             />
           </div>
           <div className={styles.thumbRow}>
-            {product.gallery.map((image) => (
+            {product.gallery.map((image, index) => (
               <button
                 className={`${styles.thumbButton} ${activeImage === image ? styles.selected : ""}`}
                 type="button"
                 key={image}
-                aria-label={`Ver imagem ${image}`}
+                aria-label={`Ver imagem ${index + 1} de ${product.name}`}
                 onClick={() => setActiveImage(image)}
               >
-                <Image src={image} width={70} height={70} alt="" />
+                <Image src={image} width={70} height={70} sizes="76px" alt="" />
               </button>
             ))}
           </div>
@@ -93,6 +123,24 @@ export function ProductDetailClient({ product, related }: { product: Product; re
                 {badge}
               </span>
             ))}
+          </div>
+          <div className={styles.productFacts}>
+            <div>
+              <span>Stock</span>
+              <strong>{product.stockStatus ?? "Disponível"}</strong>
+            </div>
+            <div>
+              <span>Textura</span>
+              <strong>{texture}</strong>
+            </div>
+            <div>
+              <span>Duração</span>
+              <strong>{product.duration ?? "6 a 10 semanas"}</strong>
+            </div>
+            <div>
+              <span>Preço/ml</span>
+              <strong>{product.pricePerMl ?? computedPricePerMl}</strong>
+            </div>
           </div>
           <div>
             <strong>Tamanho</strong>
@@ -111,15 +159,47 @@ export function ProductDetailClient({ product, related }: { product: Product; re
             </div>
           </div>
           <div className={styles.detailPanel}>
-            <h2>Ingredientes principais</h2>
-            <p>{product.ingredients.join(" · ")}</p>
+            <h2>Para que pele</h2>
+            <p>{skinLabel}</p>
+          </div>
+          <div className={styles.detailPanel}>
+            <h2>Quando usar</h2>
+            <p>{whenToUse}</p>
+          </div>
+          <div className={styles.detailPanel}>
+            <h2>Benefícios</h2>
+            <ul className={styles.cleanList}>
+              {benefits.map((benefit) => (
+                <li key={benefit}>{benefit}</li>
+              ))}
+            </ul>
           </div>
           <div className={styles.detailPanel}>
             <h2>Como usar</h2>
             <p>{product.usage}</p>
           </div>
+          <div className={styles.detailPanel}>
+            <h2>Ingredientes principais</h2>
+            <p>{product.ingredients.join(" · ")}</p>
+            <p className={styles.microText}>Lista completa: {fullIngredients.join(", ")}.</p>
+          </div>
+          <div className={styles.detailPanel}>
+            <h2>Combina bem com</h2>
+            <p>{pairsWith.join(" · ")}</p>
+          </div>
+          <div className={styles.detailPanel}>
+            <h2>Evita combinar com</h2>
+            <ul className={styles.cleanList}>
+              {avoidWith.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
           <div className={styles.notice}>
-            <strong>Nota de segurança</strong>
+            <strong>
+              <ShieldCheck size={17} aria-hidden="true" />
+              Nota de segurança
+            </strong>
             <p>{product.safetyNote}</p>
           </div>
           <div className={styles.buttonRow}>
@@ -127,6 +207,13 @@ export function ProductDetailClient({ product, related }: { product: Product; re
               <ShoppingBag size={18} aria-hidden="true" />
               {added ? "Adicionado" : `${formatPrice(product.price)} · Adicionar`}
             </button>
+            <button className={styles.secondaryButton} type="button" onClick={buyNow}>
+              <Zap size={18} aria-hidden="true" />
+              Comprar agora
+            </button>
+            <Link className={styles.secondaryButton} href="/envios">
+              Envios e devoluções
+            </Link>
           </div>
         </div>
       </div>

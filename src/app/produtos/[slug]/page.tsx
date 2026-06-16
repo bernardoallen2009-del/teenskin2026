@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ProductDetailClient } from "@/components/ProductDetailClient";
 import { getProductBySlug, getRelatedProducts, products } from "@/data/catalog";
+import { siteUrl } from "@/lib/site";
 import styles from "@/styles/site.module.css";
 
 type ProductDetailPageProps = {
@@ -41,9 +42,33 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   }
 
   const related = getRelatedProducts(product);
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: product.gallery.map((image) => `${siteUrl}${image}`),
+    brand: {
+      "@type": "Brand",
+      name: "TeensSkin"
+    },
+    offers: {
+      "@type": "Offer",
+      price: product.price,
+      priceCurrency: "EUR",
+      availability: "https://schema.org/InStock",
+      url: `${siteUrl}/produtos/${product.slug}`
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: product.rating,
+      reviewCount: product.reviews
+    }
+  };
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
       <section className={styles.pageIntro}>
         <div className={styles.sectionInner}>
           <Breadcrumbs items={[{ href: "/produtos", label: "Produtos" }, { label: product.name }]} />

@@ -49,6 +49,7 @@ export function ProductCard({ product, compact = false }: ProductCardProps) {
           src={product.image}
           width={520}
           height={520}
+          sizes="(max-width: 768px) 92vw, (max-width: 1180px) 31vw, 24vw"
           alt={`Embalagem do produto ${product.name}`}
         />
       </Link>
@@ -58,6 +59,10 @@ export function ProductCard({ product, compact = false }: ProductCardProps) {
             <Link href={`/produtos/${product.slug}`}>{product.name}</Link>
           </h3>
           {!compact ? <p className={styles.muted}>{product.description}</p> : null}
+        </div>
+        <div className={styles.productMetaRow}>
+          <span>{product.texture ?? "Textura leve"}</span>
+          <span>{product.stockStatus ?? "Disponível"}</span>
         </div>
         <StarRating rating={product.rating} count={product.reviews} />
         <div className={styles.priceRow}>

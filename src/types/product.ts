@@ -10,6 +10,8 @@ export type ProductCategory =
 
 export type ProductBadge = "Novo" | "Mais vendido" | "Vegan" | "Cruelty-free" | "Sem perfume";
 
+export type StockStatus = "Disponível" | "Poucas unidades" | "Em breve";
+
 export type Product = {
   id: string;
   slug: string;
@@ -28,6 +30,15 @@ export type Product = {
   image: string;
   gallery: string[];
   sizes: string[];
+  texture?: string;
+  whenToUse?: string;
+  pairsWith?: string[];
+  avoidWith?: string[];
+  fullIngredients?: string[];
+  benefits?: string[];
+  duration?: string;
+  pricePerMl?: string;
+  stockStatus?: StockStatus;
   isNew: boolean;
   featured: boolean;
   usage: string;
