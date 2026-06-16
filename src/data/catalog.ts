@@ -198,8 +198,8 @@ export const products: Product[] = [
   {
     id: "p-004",
     slug: "sunny-spf-50",
-    name: "Sunny SPF 50",
-    shortName: "Sunny SPF",
+    name: "SunShield SPF 50",
+    shortName: "SunShield SPF",
     description:
       "Protetor solar facial de acabamento invisível, pensado para escola, treino e dias longos.",
     category: "protecao-solar",
@@ -211,8 +211,14 @@ export const products: Product[] = [
     rating: 4.9,
     reviews: 312,
     popularity: 100,
-    image: "/images/sunny-spf.png",
-    gallery: ["/images/sunny-spf.png", "/images/gallery-spf.png"],
+    image: "/images/sunshield-spf-50-5.png",
+    gallery: [
+      "/images/sunshield-spf-50-5.png",
+      "/images/sunshield-spf-50-1.png",
+      "/images/sunshield-spf-50-2.png",
+      "/images/sunshield-spf-50-3.png",
+      "/images/sunshield-spf-50-4.png"
+    ],
     sizes: ["50 ml"],
     isNew: false,
     featured: true,
@@ -374,7 +380,7 @@ export const reviews: Review[] = [
     name: "Marta, 16",
     rating: 5,
     quote: "O SPF não deixa a minha pele brilhante e já não salto esse passo antes da escola.",
-    product: "Sunny SPF 50"
+    product: "SunShield SPF 50"
   },
   {
     id: "r-2",
