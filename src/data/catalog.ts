@@ -152,8 +152,13 @@ export const products: Product[] = [
     rating: 4.6,
     reviews: 82,
     popularity: 88,
-    image: "/images/balance-mist.png",
-    gallery: ["/images/balance-mist.png", "/images/gallery-mist.png"],
+    image: "/images/balance-mist-toner-4.png",
+    gallery: [
+      "/images/balance-mist-toner-4.png",
+      "/images/balance-mist-toner-1.png",
+      "/images/balance-mist-toner-2.png",
+      "/images/balance-mist-toner-3.png"
+    ],
     sizes: ["100 ml"],
     isNew: true,
     featured: true,
@@ -176,8 +181,14 @@ export const products: Product[] = [
     rating: 4.8,
     reviews: 201,
     popularity: 96,
-    image: "/images/barrier-cream.png",
-    gallery: ["/images/barrier-cream.png", "/images/gallery-cream.png"],
+    image: "/images/barrier-cream-5.png",
+    gallery: [
+      "/images/barrier-cream-5.png",
+      "/images/barrier-cream-1.png",
+      "/images/barrier-cream-2.png",
+      "/images/barrier-cream-3.png",
+      "/images/barrier-cream-4.png"
+    ],
     sizes: ["75 ml", "30 ml"],
     isNew: false,
     featured: true,
