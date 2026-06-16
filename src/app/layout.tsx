@@ -4,9 +4,10 @@ import { ClientProviders } from "@/components/ClientProviders";
 import { CookieConsent } from "@/components/CookieConsent";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://teensskin.example"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "TeensSkin - Skincare para adolescentes",
     template: "%s | TeensSkin"

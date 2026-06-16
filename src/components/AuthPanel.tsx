@@ -62,7 +62,7 @@ export function AuthPanel() {
       <div className={styles.profilePanel}>
         <span className={styles.eyebrow}>Perfil</span>
         <h1 className={styles.title}>Olá, {user.name}</h1>
-        <p className={styles.lead}>Sessão guardada no localStorage deste navegador, conforme pedido no PDF.</p>
+        <p className={styles.lead}>As tuas preferências ficam guardadas neste navegador para retomares a rotina com calma.</p>
         <div className={styles.detailPanel}>
           <h2>Dados pessoais</h2>
           <p>{user.email}</p>
@@ -84,7 +84,7 @@ export function AuthPanel() {
     <form className={styles.profilePanel} onSubmit={submit}>
       <span className={styles.eyebrow}>Conta</span>
       <h1 className={styles.title}>{mode === "login" ? "Iniciar sessão" : "Criar conta"}</h1>
-      <p className={styles.lead}>Autenticação simples com JWT para preparar perfil, histórico e recomendações.</p>
+      <p className={styles.lead}>Cria um perfil simples para guardar recomendações e acompanhar a tua rotina.</p>
       <div className={styles.authMeta}>
         <button
           className={`${styles.chip} ${mode === "login" ? styles.selected : ""}`}

@@ -38,7 +38,7 @@ export function CartView() {
         window.location.assign(payload.url);
         return;
       }
-      setStatus("Checkout preparado. Ativa Stripe nas variáveis de ambiente para pagamento real.");
+      setStatus("Checkout preparado. Quando a loja estiver aberta, o pagamento seguro fica ativo.");
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Checkout indisponível.");
     }

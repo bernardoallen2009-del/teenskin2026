@@ -1,22 +1,21 @@
 import type { MetadataRoute } from "next";
 import { articles, products } from "@/data/catalog";
-
-const baseUrl = "https://teensskin.example";
+import { siteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = ["", "/produtos", "/quiz", "/carrinho", "/sobre", "/descobrir", "/perfil", "/privacidade"];
 
   return [
     ...staticRoutes.map((route) => ({
-      url: `${baseUrl}${route}`,
+      url: `${siteUrl}${route}`,
       lastModified: new Date()
     })),
     ...products.map((product) => ({
-      url: `${baseUrl}/produtos/${product.slug}`,
+      url: `${siteUrl}/produtos/${product.slug}`,
       lastModified: new Date()
     })),
     ...articles.map((article) => ({
-      url: `${baseUrl}/descobrir/${article.slug}`,
+      url: `${siteUrl}/descobrir/${article.slug}`,
       lastModified: new Date(article.date)
     }))
   ];

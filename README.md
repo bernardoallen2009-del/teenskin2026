@@ -55,7 +55,8 @@ Ver `.env.example`.
 
 - `PORT`: porta da API.
 - `CLIENT_ORIGIN`: origem permitida por CORS.
-- `NEXT_PUBLIC_API_URL`: URL pública da API usada pelo browser.
+- `NEXT_PUBLIC_SITE_URL`: domínio público usado por metadata, sitemap e robots.
+- `NEXT_PUBLIC_API_URL`: URL pública da API Express, opcional. Se ficar vazia, a Vercel usa as rotas internas de Next em `/api`.
 - `JWT_SECRET`: segredo para assinar tokens.
 - `DATABASE_URL`: URL PostgreSQL para Prisma.
 - `STRIPE_SECRET_KEY` e `STRIPE_PRICE_ID`: ativam checkout real.
@@ -107,7 +108,21 @@ Ver `.env.example`.
 
 ## Deploy
 
-Front-end: Vercel é a opção natural para Next.js. Define `NEXT_PUBLIC_API_URL` para a URL pública da API.
+### Vercel através do GitHub
+
+1. Garante que o repositório do GitHub contém estes ficheiros na raiz: `package.json`, `src`, `public`, `vercel.json` e `next.config.ts`.
+2. Na Vercel, importa o repositório GitHub e usa:
+   - Framework Preset: `Next.js`
+   - Root Directory: vazio ou `./`
+   - Install Command: `npm install`
+   - Build Command: `npm run build:web`
+3. Define `NEXT_PUBLIC_SITE_URL` com o domínio final, por exemplo `https://teenskin2026.vercel.app`.
+4. Deixa `NEXT_PUBLIC_API_URL` vazia enquanto não tiveres uma API Express pública. O site usa as rotas serverless internas de Next para newsletter, perfil demo, health check e checkout preparado.
+5. Depois de cada `push` para `main`, a Vercel deve criar um novo deploy automaticamente.
+
+Se vires erro 404 na Vercel, confirma primeiro se o projeto foi importado a partir da raiz correta. A subpasta `teenskin2026/` é apenas um repositório vazio antigo e não deve ser usada como Root Directory.
+
+Front-end: Vercel é a opção natural para Next.js. Se quiseres usar a API Express separada, define `NEXT_PUBLIC_API_URL` para a URL pública dessa API.
 
 Back-end: Render, Fly.io, Railway ou VPS Node. Define `CLIENT_ORIGIN`, `JWT_SECRET`, `DATABASE_URL` e Stripe. Coloca a API atrás de HTTPS.
 

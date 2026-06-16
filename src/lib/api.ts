@@ -1,7 +1,15 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+const configuredApiUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
+const API_URL =
+  configuredApiUrl && !(process.env.NODE_ENV === "production" && /localhost|127\.0\.0\.1/.test(configuredApiUrl))
+    ? configuredApiUrl
+    : "";
+
+function apiPath(path: string) {
+  return `${API_URL}${path}`;
+}
 
 export async function postNewsletter(email: string) {
-  const response = await fetch(`${API_URL}/api/newsletter`, {
+  const response = await fetch(apiPath("/api/newsletter"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -18,7 +26,7 @@ export async function postNewsletter(email: string) {
 }
 
 export async function loginProfile(email: string, password: string) {
-  const response = await fetch(`${API_URL}/api/auth/login`, {
+  const response = await fetch(apiPath("/api/auth/login"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -35,7 +43,7 @@ export async function loginProfile(email: string, password: string) {
 }
 
 export async function registerProfile(name: string, email: string, password: string) {
-  const response = await fetch(`${API_URL}/api/auth/register`, {
+  const response = await fetch(apiPath("/api/auth/register"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -52,7 +60,7 @@ export async function registerProfile(name: string, email: string, password: str
 }
 
 export async function requestCheckout(items: { slug: string; quantity: number }[]) {
-  const response = await fetch(`${API_URL}/api/checkout`, {
+  const response = await fetch(apiPath("/api/checkout"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

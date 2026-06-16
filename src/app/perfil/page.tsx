@@ -5,7 +5,7 @@ import styles from "@/styles/site.module.css";
 
 export const metadata: Metadata = {
   title: "Perfil",
-  description: "Perfil TeensSkin com sessão JWT, dados locais e recomendação do quiz."
+  description: "Perfil TeensSkin com preferências, dados locais e recomendação do quiz."
 };
 
 export default function ProfilePage() {

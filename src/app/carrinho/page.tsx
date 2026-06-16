@@ -5,7 +5,7 @@ import styles from "@/styles/site.module.css";
 
 export const metadata: Metadata = {
   title: "Carrinho",
-  description: "Carrinho TeensSkin com quantidades, desconto, portes e checkout preparado para Stripe."
+  description: "Carrinho TeensSkin com quantidades, desconto, portes e checkout preparado."
 };
 
 export default function CartPage() {
